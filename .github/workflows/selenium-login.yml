@@ -16,15 +16,18 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: 18
-    - name: Install dependencies
-      run: |-
-        cd frontend-app && npm install
-        cd ../selenium_tests && npm install
+    - name: Install Frontend Dependencies
+      working-directory: frontend-app
+      run: npm install
+    - name: Install Selenium Dependencies
+      working-directory: selenium_tests
+      run: npm install
+    - name: Start Frontend Server
+      working-directory: frontend-app
+      run: npm run dev &
     - name: Run Web Automation
-      run: |-
-        cd frontend-app && npm run dev &
-        sleep 5
-        cd selenium_tests && npm test
+      working-directory: selenium_tests
+      run: sleep 10 && npm test
 
   appium-mobile-tests:
     name: Appium Mobile Tests Dry-Run
@@ -35,10 +38,12 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: 18
-    - name: Install dependencies
-      run: cd appium_tests && npm install
+    - name: Install Appium Dependencies
+      working-directory: appium_tests
+      run: npm install
     - name: Run Mobile Automation (Dry-Run)
-      run: cd appium_tests && npm test
+      working-directory: appium_tests
+      run: npm test
 
   excel-analysis-report:
     name: Generate Excel Analysis Report

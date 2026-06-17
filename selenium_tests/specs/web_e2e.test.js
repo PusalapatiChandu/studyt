@@ -1,4 +1,5 @@
-const { Builder } = require('selenium-webdriver');
+const { Builder, Capabilities } = require('selenium-webdriver');
+const chrome = require('selenium-webdriver/chrome');
 const LoginPage = require('../pages/login_page');
 const assert = require('assert');
 
@@ -8,12 +9,22 @@ describe('Smart Blood Web E2E Suite - Comprehensive Analysis', function () {
     let loginPage;
 
     before(async function () {
-        driver = await new Builder().forBrowser('chrome').build();
+        let options = new chrome.Options();
+        options.addArguments('--headless');
+        options.addArguments('--no-sandbox');
+        options.addArguments('--disable-dev-shm-usage');
+
+        driver = await new Builder()
+            .forBrowser('chrome')
+            .setChromeOptions(options)
+            .build();
         loginPage = new LoginPage(driver);
     });
 
     after(async function () {
-        await driver.quit();
+        if (driver) {
+            await driver.quit();
+        }
     });
 
     it('TC-WEB-001: User performs successful login with valid credentials', async function () {
