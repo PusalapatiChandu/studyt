@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/foundation.dart';
 import '../../../../core/constants/firebase_config.dart';
 import '../domain/book_model.dart';
 
@@ -35,7 +36,7 @@ class BooksService {
           }
         }
       } catch (e) {
-        print("Error initializing books in Firestore: $e");
+        debugPrint("Error initializing books in Firestore: $e");
       }
     } else {
       final prefs = await SharedPreferences.getInstance();
@@ -55,7 +56,7 @@ class BooksService {
         final query = await _firestore.collection('books').get();
         return query.docs.map((doc) => BookModel.fromMap(doc.data())).toList();
       } catch (e) {
-        print("Error fetching books from Firestore: $e");
+        debugPrint("Error fetching books from Firestore: $e");
       }
     }
     

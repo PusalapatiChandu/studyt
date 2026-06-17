@@ -22,6 +22,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
     super.initState();
     // Send verification email on load
     Future.microtask(() {
+      if (!mounted) return;
       final provider = Provider.of<AuthProvider>(context, listen: false);
       provider.sendVerificationEmail();
     });
@@ -132,10 +133,9 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                   
                   TextButton(
                     onPressed: () async {
+                      final navigator = Navigator.of(context);
                       await authProvider.logout();
-                      if (mounted) {
-                        Navigator.of(context).pushReplacementNamed('/');
-                      }
+                      navigator.pushReplacementNamed('/');
                     },
                     child: const Text(
                       "Cancel and Sign Out",

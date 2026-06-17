@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/foundation.dart';
 import '../../../../core/constants/firebase_config.dart';
 import '../domain/user_model.dart';
 
@@ -150,7 +151,7 @@ class AuthService {
         return UserModel.fromMap(doc.data()!);
       }
     } catch (e) {
-      print("Error fetching user data: $e");
+      debugPrint("Error fetching user data: $e");
     }
     return null;
   }

@@ -68,9 +68,11 @@ class CbtExamScreen extends StatelessWidget {
     final questionText = isTelugu ? question.questionTe : question.questionEn;
     final options = isTelugu ? question.optionsTe : question.optionsEn;
 
-    return WillPopScope(
-      onWillPop: () async {
-        // Confirm exit
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+        
         final exit = await showDialog<bool>(
           context: context,
           builder: (context) => AlertDialog(
@@ -101,7 +103,12 @@ class CbtExamScreen extends StatelessWidget {
             ],
           ),
         );
-        return exit ?? false;
+        
+        if (exit ?? false) {
+          if (context.mounted) {
+            Navigator.of(context).pop();
+          }
+        }
       },
       child: Scaffold(
         appBar: AppBar(

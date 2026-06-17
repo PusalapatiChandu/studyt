@@ -28,10 +28,10 @@ void main() async {
       options: DefaultFirebaseOptions.currentPlatform,
     );
     FirebaseConfig.isFirebaseAvailable = true;
-    print("Firebase initialized successfully.");
+    debugPrint("Firebase initialized successfully.");
   } catch (e) {
     FirebaseConfig.isFirebaseAvailable = false;
-    print("Firebase configuration not found or failed to initialize. Running in Local Mock Mode: $e");
+    debugPrint("Firebase configuration not found or failed to initialize. Running in Local Mock Mode: $e");
   }
 
   runApp(const StudyTimetableApp());

@@ -8,7 +8,6 @@ class AuthProvider extends ChangeNotifier {
   UserModel? _currentUser;
   bool _isLoading = true; // true initially to show splash while checking session
   String? _errorMessage;
-  bool _isEmailVerified = false;
 
   UserModel? get currentUser => _currentUser;
   bool get isLoading => _isLoading;
@@ -27,7 +26,7 @@ class AuthProvider extends ChangeNotifier {
     try {
       _currentUser = await _authService.getCurrentUser();
       if (_currentUser != null) {
-        _isEmailVerified = await _authService.isEmailVerified();
+        await _authService.isEmailVerified();
       }
     } catch (e) {
       _errorMessage = e.toString();
@@ -45,7 +44,7 @@ class AuthProvider extends ChangeNotifier {
     try {
       _currentUser = await _authService.signIn(email, password);
       if (_currentUser != null) {
-        _isEmailVerified = await _authService.isEmailVerified();
+        await _authService.isEmailVerified();
         return true;
       }
       return false;
@@ -76,7 +75,7 @@ class AuthProvider extends ChangeNotifier {
         selectedGoal: selectedGoal,
       );
       if (_currentUser != null) {
-        _isEmailVerified = await _authService.isEmailVerified();
+        await _authService.isEmailVerified();
         return true;
       }
       return false;
@@ -94,7 +93,7 @@ class AuthProvider extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
     try {
-      _isEmailVerified = await _authService.isEmailVerified();
+      await _authService.isEmailVerified();
     } catch (e) {
       _errorMessage = e.toString();
     } finally {
@@ -148,7 +147,6 @@ class AuthProvider extends ChangeNotifier {
     try {
       await _authService.signOut();
       _currentUser = null;
-      _isEmailVerified = false;
     } catch (e) {
       _errorMessage = e.toString();
     } finally {

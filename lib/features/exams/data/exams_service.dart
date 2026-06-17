@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/foundation.dart';
 import '../../../../core/constants/firebase_config.dart';
 import '../domain/question_model.dart';
 import '../domain/result_model.dart';
@@ -137,7 +138,7 @@ class ExamsService {
           }
         }
       } catch (e) {
-        print("Error initializing questions in Firestore: $e");
+        debugPrint("Error initializing questions in Firestore: $e");
       }
     } else {
       final prefs = await SharedPreferences.getInstance();
@@ -161,7 +162,7 @@ class ExamsService {
             .get();
         return query.docs.map((doc) => QuestionModel.fromMap(doc.data())).toList();
       } catch (e) {
-        print("Error fetching questions: $e");
+        debugPrint("Error fetching questions: $e");
       }
     }
 
@@ -201,7 +202,7 @@ class ExamsService {
             .get();
         return query.docs.map((doc) => ResultModel.fromMap(doc.data())).toList();
       } catch (e) {
-        print("Error getting results: $e");
+        debugPrint("Error getting results: $e");
       }
     }
 

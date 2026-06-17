@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/foundation.dart';
 import '../../../../core/constants/firebase_config.dart';
 import '../../../../core/constants/syllabus_data.dart';
 import '../domain/timetable_model.dart';
@@ -97,7 +98,7 @@ class TimetableService {
           return TimetableModel.fromMap(doc.data()!);
         }
       } catch (e) {
-        print("Error getting timetable: $e");
+        debugPrint("Error getting timetable: $e");
       }
     } else {
       final prefs = await SharedPreferences.getInstance();
