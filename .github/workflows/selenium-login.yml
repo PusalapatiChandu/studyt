@@ -65,5 +65,5 @@ jobs:
     - name: Upload Master Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: SmartBlood-Master-100Plus-Analysis
+        name: Studyt-Master-100Plus-Analysis
         path: reports/**/*.xlsx
