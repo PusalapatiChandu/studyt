@@ -3,7 +3,7 @@ const fs = require('fs');
 
 async function generateProfessionalReport(platform, testResults) {
     const workbook = new ExcelJS.Workbook();
-    const sheet = workbook.addWorksheet(`${platform} Analysis`);
+    const sheet = workbook.addWorksheet(`Studyt ${platform} Analysis`);
 
     // Define Headers
     const headerRow = sheet.addRow(['#', 'Category', 'Test Case', 'Status', 'Error Detail', 'Timestamp']);
@@ -51,7 +51,7 @@ async function generateProfessionalReport(platform, testResults) {
     const reportsDir = '../reports';
     if (!fs.existsSync(reportsDir)) fs.mkdirSync(reportsDir, { recursive: true });
     
-    const path = `${reportsDir}/${platform}_E2E_Analysis.xlsx`;
+    const path = `${reportsDir}/Studyt_${platform}_Analysis.xlsx`;
     await workbook.xlsx.writeFile(path);
     console.log(`✅ Master Report Generated: ${path}`);
 }

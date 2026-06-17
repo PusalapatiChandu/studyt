@@ -9,11 +9,11 @@ def generate_professional_report(platform, test_results):
     if not os.path.exists(reports_dir):
         os.makedirs(reports_dir)
         
-    filename = f"{reports_dir}/{platform}_E2E_Analysis.xlsx"
+    filename = f"{reports_dir}/Studyt_{platform}_Analysis.xlsx"
     
     wb = Workbook()
     ws = wb.active
-    ws.title = "E2E Analysis"
+    ws.title = "Studyt E2E Analysis"
 
     # Define Header
     headers = ["#", "Category", "Test Case", "Status", "Error Detail", "Timestamp"]

@@ -5,7 +5,7 @@ from utils.excel_reporter import generate_professional_report
 def run_after_all():
     results = []
     yield results
-    print("\nFinalizing Mobile Suite and generating professional Excel report...")
+    print("\nFinalizing Studyt Mobile Suite and generating professional Excel report...")
     generate_professional_report('Mobile_Platform', results)
 
 categories = [

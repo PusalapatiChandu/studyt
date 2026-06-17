@@ -1,7 +1,7 @@
 const assert = require('assert');
 const generateReport = require('../reporter/excel_reporter');
 
-describe('Smart Blood Web 100+ Test Suite', function () {
+describe('Studyt Web 100+ Test Suite', function () {
     this.timeout(120000);
     const results = [];
 
