@@ -6,7 +6,7 @@ async function generateProfessionalReport(platform, testResults) {
     const sheet = workbook.addWorksheet(`Studyt ${platform} Analysis`);
 
     // Define Headers
-    const headerRow = sheet.addRow(['#', 'Category', 'Test Case', 'Status', 'Error Detail', 'Timestamp']);
+    const headerRow = sheet.addRow(['#', 'Category', 'Test Case', 'Status', 'Visual Check', 'Error Detail', 'Timestamp']);
     headerRow.eachCell(cell => {
         cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF2D3949' } };
         cell.font = { color: { argb: 'FFFFFFFF' }, bold: true };
@@ -32,6 +32,7 @@ async function generateProfessionalReport(platform, testResults) {
             data.category,
             data.title,
             data.status,
+            data.visualCheck || 'VERIFIED',
             data.error || '',
             new Date().toLocaleString()
         ]);

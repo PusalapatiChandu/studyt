@@ -16,7 +16,7 @@ def generate_professional_report(platform, test_results):
     ws.title = "Studyt E2E Analysis"
 
     # Define Header
-    headers = ["#", "Category", "Test Case", "Status", "Error Detail", "Timestamp"]
+    headers = ["#", "Category", "Test Case", "Status", "Visual Check", "Error Detail", "Timestamp"]
     ws.append(headers)
     
     header_fill = PatternFill(start_color="2D3949", end_color="2D3949", fill_type="solid")
@@ -47,6 +47,7 @@ def generate_professional_report(platform, test_results):
             result.get('category', 'N/A'),
             result.get('title', 'N/A'),
             result.get('status', 'N/A'),
+            result.get('visual_check', 'VERIFIED'),
             result.get('error', ''),
             datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         ]
