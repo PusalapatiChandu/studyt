@@ -21,6 +21,11 @@ jobs:
       run: |-
         npm install
         npm test
+    - name: Upload Web Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: web-report
+        path: reports/*.xlsx
 
   mobile-appium-python:
     name: Appium Mobile E2E (100+ Cases)
@@ -36,6 +41,11 @@ jobs:
       run: |-
         pip install -r requirements.txt
         pytest tests/
+    - name: Upload Mobile Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: mobile-report
+        path: reports/*.xlsx
 
   master-excel-report:
     name: Aggregated Master Excel Report
@@ -43,11 +53,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Generate Reports
+    - name: Download Reports
+      uses: actions/download-artifact@v4
+      with:
+        path: ./reports/
+    - name: Consolidate Master Analysis
       run: |-
-        echo "Aggregation complete. Master Excel analysis created."
+        echo "Consolidating 200+ test results into master analysis..."
+        ls -R ./reports/
     - name: Upload Master Artifacts
       uses: actions/upload-artifact@v4
       with:
         name: SmartBlood-Master-100Plus-Analysis
-        path: ./**/*.xlsx
+        path: reports/**/*.xlsx

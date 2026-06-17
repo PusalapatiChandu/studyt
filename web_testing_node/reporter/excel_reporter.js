@@ -1,32 +1,59 @@
 const ExcelJS = require('exceljs');
 const fs = require('fs');
 
-async function generateProfessionalReport(platform, testData) {
+async function generateProfessionalReport(platform, testResults) {
     const workbook = new ExcelJS.Workbook();
     const sheet = workbook.addWorksheet(`${platform} Analysis`);
 
-    sheet.columns = [
-        { header: 'Test ID', key: 'id', width: 15 },
-        { header: 'Description', key: 'desc', width: 45 },
-        { header: 'Category', key: 'cat', width: 20 },
-        { header: 'Result', key: 'res', width: 15 },
-        { header: 'Error Log', key: 'err', width: 40 }
-    ];
-
-    testData.forEach(data => {
-        const row = sheet.addRow(data);
-        const resCell = row.getCell('res');
-        if (data.res === 'PASS') {
-            resCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFC8E6C9' } };
-        } else {
-            resCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFFCDD2' } };
-        }
+    // Define Headers
+    const headerRow = sheet.addRow(['#', 'Category', 'Test Case', 'Status', 'Error Detail', 'Timestamp']);
+    headerRow.eachCell(cell => {
+        cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF2D3949' } };
+        cell.font = { color: { argb: 'FFFFFFFF' }, bold: true };
     });
 
-    if (!fs.existsSync('./reports')) fs.mkdirSync('./reports');
-    const path = `./reports/${platform}_Master_Report.xlsx`;
+    const categoryColors = {
+        'Functional Testing': 'FFE8F5E9',
+        'UI/UX Testing': 'FFE3F2FD',
+        'Compatibility Testing': 'FFF1F8E9',
+        'Performance Testing': 'FFFCE4EC',
+        'Security Testing': 'FFF3E5F5',
+        'API Testing': 'FFE0F2F1',
+        'Database Testing': 'FFEFEBE9',
+        'Accessibility Testing': 'FFFAFAFA',
+        'Mobile-Specific Testing': 'FFECEFF1',
+        'Regression Testing': 'FFFFF9C4',
+        'End-to-End Testing': 'FFFFEBEE'
+    };
+
+    testResults.forEach((data, index) => {
+        const row = sheet.addRow([
+            index + 1,
+            data.category,
+            data.title,
+            data.status,
+            data.error || '',
+            new Date().toLocaleString()
+        ]);
+
+        const bgColor = categoryColors[data.category] || 'FFFFFFFF';
+        row.eachCell(cell => {
+            cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: bgColor } };
+        });
+
+        const statusCell = row.getCell(4);
+        statusCell.font = { bold: true, color: { argb: data.status === 'PASS' ? 'FF2E7D32' : 'FFC62828' } };
+    });
+
+    sheet.getColumn(3).width = 50;
+    sheet.getColumn(5).width = 40;
+
+    const reportsDir = '../reports';
+    if (!fs.existsSync(reportsDir)) fs.mkdirSync(reportsDir, { recursive: true });
+    
+    const path = `${reportsDir}/${platform}_E2E_Analysis.xlsx`;
     await workbook.xlsx.writeFile(path);
-    console.log(`Report generated successfully at: ${path}`);
+    console.log(`✅ Master Report Generated: ${path}`);
 }
 
 module.exports = generateProfessionalReport;
