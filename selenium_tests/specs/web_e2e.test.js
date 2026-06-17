@@ -28,7 +28,7 @@ describe('Smart Blood Web E2E Suite - Comprehensive Analysis', function () {
     });
 
     it('TC-WEB-001: User performs successful login with valid credentials', async function () {
-        await driver.get('http://localhost:5173');
+        await driver.get('http://127.0.0.1:5173');
         await loginPage.login('donor@smartblood.com', 'pass123');
         const message = await loginPage.getSuccessMessage();
         assert.strictEqual(message, 'Successfully logged in!');

@@ -24,10 +24,10 @@ jobs:
       run: npm install
     - name: Start Frontend Server
       working-directory: frontend-app
-      run: npm run dev &
+      run: npm run dev -- --host 127.0.0.1 &
     - name: Run Web Automation
       working-directory: selenium_tests
-      run: sleep 10 && npm test
+      run: sleep 20 && npm test
 
   appium-mobile-tests:
     name: Appium Mobile Tests Dry-Run
